@@ -1,73 +1,61 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Iniciar parte backend del challenge
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Crear archivo .env
+Es importante añadir las variables de entorno para la conexión a la base de datos, se debe hacer tal y como se ve en el archivo `.env.example`
+```.env
+PORT=3000
+PG_USER=
+PG_PASSWORD=
+PG_HOST=
+PG_PORT=
+PG_DATABASE=
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+SECRET_KEY=S3cr3tK3y123!
 ```
+Recomiendo conservar el PORT en el 3000 para que las peticiones del frontend se conecten correctamente al servidor.
 
-## Running the app
+## Ejecutar backend en Nest.js
+Debes ubicarte en la dirección root de el proyecto en la terminal y correr el comando `npm start` o `npm run start:dev` para modo --watch o desarrollo.
 
-```bash
-# development
-$ npm run start
+## Agregar productos del archivo .xlsx
+Una vez iniciado y funcionando correctamente, podemos ir al endpoint `http://localhost:3000/excel` para agregar los productos en el archivo de excel.
 
-# watch mode
-$ npm run start:dev
+La configuración es agregar un archivo en el Form-data en Postman o en el Form en Thunder Client con la key `file` y el archivo proporcionado para la prueba. Lo dejo en el directorio `src/test-file`.
 
-# production mode
-$ npm run start:prod
+Una vez teniendo el archivo cargado se ejecuta una petición `POST` y esto debería subir todos los productos a la tabla products.
+
+Se puede verificar haciendo una petición `GET` al endpoint `http://localhost:3000/product`
+
+Teniendo esto terminado se puede concluir el setup del backend del desafío.
+
+## Otras posibles peticiones
+Todas las peticiones de edición a productos requieren un JWT sin expirar para funcionar, estas son las que no lo requieren.
+
+`GET` a `http://localhost:3000/product/:id`
+
+Para retornar un producto en específico.
+
+
+`GET` a `http://localhost:3000/user`
+
+Para obtener una lista de todos los usuarios registrados.
+
+`GET` a `http://localhost:3000/user/:id`
+
+Para visualizar un usuario en específico usando su ID.
+
+`POST` a `http://localhost:3000/user`
+
+`Example body:`
+```json
+{
+  "name": "Andrés",
+  "email": "andre.ksas@gmail.com",
+  "password": "password"
+}
 ```
+Para registrar un usuario que puedes usar desde el front.
 
-## Test
+`DELETE` a `http://localhost:3000/user/:id`
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+Para eliminar un usuario en específico usando su ID.
