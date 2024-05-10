@@ -12,10 +12,11 @@ PG_DATABASE=
 
 SECRET_KEY=S3cr3tK3y123!
 ```
+Es necesario tener estos datos para conectarse a una base de datos Postgres.
 Recomiendo conservar el PORT en el 3000 para que las peticiones del frontend se conecten correctamente al servidor.
 
 ## Ejecutar backend en Nest.js
-Debes ubicarte en la dirección root de el proyecto en la terminal y correr el comando `npm start` o `npm run start:dev` para modo --watch o desarrollo.
+Debes ubicarte en la dirección root de el proyecto en la terminal y correr el comando `npm install` para instalar las dependencias. Luego correr el comando `npm start` o `npm run start:dev` para modo --watch o desarrollo.
 
 ## Agregar productos del archivo .xlsx
 Una vez iniciado y funcionando correctamente, podemos ir al endpoint `http://localhost:3000/excel` para agregar los productos en el archivo de excel.
