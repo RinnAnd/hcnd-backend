@@ -1,13 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { Repository } from 'typeorm';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 import { Session } from './dto/user-session.dto';
+import { User } from './entities/user.entity';
 
 type Res = { message: string };
 
@@ -17,7 +17,20 @@ export class UserService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<User | Res> {
+    const existingUser = await this.userRepository.findOne({
+      where: { email: createUserDto.email },
+    });
+    if (existingUser) {
+      throw new HttpException(
+        {
+          status: HttpStatus.CONFLICT,
+          error: 'You already have an account with this email',
+        },
+        HttpStatus.CONFLICT,
+      );
+    }
+
     const salt = await bcrypt.genSalt();
     createUserDto.password = await bcrypt.hash(createUserDto.password, salt);
     const newUser = this.userRepository.create(createUserDto);
